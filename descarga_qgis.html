@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Descargar proyecto QGIS</title><link rel="icon" href="icons/qgis.png">
+<style>
+:root{color-scheme:light;--fondo:#e7eeed;--panel:#f8faf9;--tinta:#193d4b;--secundario:#4e6973;--borde:#c5d5d7}
+:root[data-tema=oscuro]{color-scheme:dark;--fondo:#0e171e;--panel:#15232d;--tinta:#e0edf3;--secundario:#a1b7c2;--borde:#344954}
+body{margin:0;background:var(--fondo);color:var(--tinta);font:14px system-ui,sans-serif;min-height:100vh;display:grid;place-items:center}
+main{box-sizing:border-box;width:min(364px,calc(100% - 32px));background:var(--panel);border:1px solid var(--borde);border-radius:10px;padding:22px;box-shadow:0 12px 36px #183a4820}
+header{display:flex;align-items:center;gap:10px}h1{font-size:17px;margin:0}p{font-size:13px;line-height:1.5;color:var(--secundario)}
+a{display:block;text-align:center;background:#237c91;color:white;text-decoration:none;padding:12px 16px;border-radius:7px;font-weight:600}
+a:focus-visible{outline:3px solid #e4aa21;outline-offset:3px}small{display:block;margin-top:18px;padding-top:14px;border-top:1px solid var(--borde);line-height:1.5;color:var(--secundario)}
+progress{width:100%;height:5px;accent-color:#237c91}
+[hidden]{display:none!important}
+</style></head><body><main>
+<header><img src="icons/qgis.png" width="34" height="34" alt=""><h1>Proyecto QGIS</h1></header>
+<p id="periodo">Preparando descarga…</p><progress aria-label="Preparando proyecto"></progress><a id="descargar" hidden>Descargar proyecto</a>
+<p id="estado" role="status" aria-live="polite"></p>
+<small>Abre el archivo <b>.qgz</b> con doble clic en QGIS; no hace falta descomprimirlo. Las capas van dentro del mismo archivo: si editas zonas, guarda el proyecto (Ctrl+S). Incluye lluvia y temperaturas, con mapas diarios y del período.</small>
+</main><script src="vendor/fflate.js"></script><script src="vendor/sql-wasm.js"></script><script src="qgis_paquete.js?v=20261029.1"></script><script>
+const params=new URLSearchParams(location.search),archivo=params.get('archivo')||'';
+document.documentElement.dataset.tema=params.get('tema')==='oscuro'?'oscuro':'claro';
+const m=/^alertas_(\d{4}-\d{2}-\d{2})_(\d{4}-\d{2}-\d{2})_[a-f0-9]{24}\.zip$/.exec(archivo);
+const estado=document.getElementById('estado'),periodo=document.getElementById('periodo'),a=document.getElementById('descargar');
+const progreso=document.querySelector('progress');
+const informar=async texto=>{estado.textContent=texto;await new Promise(resolve=>requestAnimationFrame(()=>setTimeout(resolve,0)));};
+if(!m){periodo.textContent='Enlace no válido';estado.textContent='Vuelve al monitor y selecciona el período.';progreso.hidden=true;}
+else (async()=>{try{
+  periodo.textContent=m[1].split('-').reverse().join('/')+' — '+m[2].split('-').reverse().join('/');
+  await informar('Consultando el proyecto actualizado…');
+  const ruta=params.get('local')==='1'?'api/alertas/archivo/':'datos/proyectos_alertas/';
+  const [r,SQL]=await Promise.all([fetch(ruta+archivo,{cache:'no-store',signal:AbortSignal.timeout(120000)}),initSqlJs({locateFile:f=>'vendor/'+f})]);
+  if(!r.ok)throw Error('Este proyecto ya se actualizó. Vuelve al monitor y selecciona las fechas otra vez.');
+  const bytes=new Uint8Array(await r.arrayBuffer());
+  if(bytes[0]!==80||bytes[1]!==75)throw Error('La respuesta no es un archivo ZIP. Vuelve al monitor e intenta de nuevo.');
+  const op={provincias:params.has('provincias')?params.get('provincias').split(','):null,limites:params.get('limites')!=='0',cantones:params.get('cantones')==='1'};
+  const contenido=fflate.unzipSync(bytes,{filter:f=>f.name==='publicacion.json'});
+  const pub=JSON.parse(new TextDecoder().decode(contenido['publicacion.json']));
+  let limites;
+  if(pub.limites_archivo){
+    await informar('Cargando los límites políticos…');
+    if(!/^limites_[a-f0-9]{24}\.gpkg$/.test(pub.limites_archivo))throw Error('Referencia de cartografía no válida.');
+    const carto=await fetch('datos/proyectos_alertas/'+pub.limites_archivo,{signal:AbortSignal.timeout(60000)});
+    if(!carto.ok)throw Error('No se pudieron cargar los límites políticos. Intenta de nuevo.');
+    limites=new Uint8Array(await carto.arrayBuffer());
+  }
+  await informar('Preparando las provincias y capas seleccionadas…');
+  const resultado=await QgisPaquete.personalizar(bytes,op,{SQL,zip:fflate,limites});
+  a.href=URL.createObjectURL(new Blob([resultado],{type:'application/octet-stream'}));
+  a.download='Alertas_meteorologicas_'+m[1]+'_'+m[2]+(op.provincias?'_provincias':'')+'.qgz';a.hidden=false;
+  progreso.hidden=true;estado.textContent='Proyecto listo. Si la descarga no comienza, pulsa Descargar proyecto.';
+  a.click();
+}catch(e){progreso.hidden=true;estado.textContent=e.message;}})();
+</script></body></html>
