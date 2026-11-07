@@ -1,0 +1,3 @@
+Icono oficial incluido en QGIS 4.2.1, recurso images/icons/qgis-icon-60x60.png.
+QGIS es una marca del proyecto QGIS. Se usa para identificar la exportación
+de proyectos compatibles con QGIS; no implica afiliación ni aprobación.
