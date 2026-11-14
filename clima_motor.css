@@ -1,0 +1,180 @@
+/* Comparte distribución, controles y tipografía con el monitor. */
+#cm-controles,.cm-mapa-boton,#cm-flotante,#cm-leyenda{display:none}
+#mapa:not(.modo-clima) .cm-mapa-boton,#mapa:not(.modo-clima) #cm-flotante,#mapa:not(.modo-clima) #cm-leyenda{display:none!important}
+body.climatologia-activa #f-cada,body.climatologia-activa label[for=f-cada],body.climatologia-activa #v-pron-grupo{display:none!important}
+body.climatologia-activa #serie-stats:empty{display:none}
+body.climatologia-activa #serie,body.hidro-motor-activo #serie{overflow:auto;min-height:0;display:flex;flex-direction:column}
+body.climatologia-activa #serie-caja,body.hidro-motor-activo #serie-caja{padding:0!important;min-height:0}
+body.climatologia-activa .a-serie>h2,body.hidro-motor-activo .a-serie>h2{padding:8px 11px;gap:5px}
+body.climatologia-activa .a-serie .tabs,body.hidro-motor-activo .a-serie .tabs{flex-wrap:wrap;gap:3px}
+body.climatologia-activa #serie-tit,body.hidro-motor-activo #serie-tit{font-size:13px}
+body.climatologia-activa .a-serie>h2{position:relative;padding-right:34px}
+#cm-info-grafico{position:absolute;right:10px;top:8px}
+body.climatologia-activa .a-serie .tabs button,body.hidro-motor-activo .a-serie .tabs button{font-size:11px;min-height:27px;padding:4px 6px}
+/* Superficies opacas en los tres módulos; la opacidad de la capa sigue independiente. */
+#mapa .capa-panel,#mapa .mapa-boton,#mapa .mapa-leyenda,.leaflet-popup-content-wrapper,.leaflet-popup-tip,.ficha-mapa{background:var(--fondo)!important;backdrop-filter:none!important}
+#mapa .mapa-boton[aria-pressed=true]{background:var(--superficie)!important}
+#mapa.modo-clima .mapa-botones>.cm-mapa-boton{display:flex!important}
+#mapa.modo-clima .mapa-paneles{left:56px;right:auto;top:auto;bottom:10px;width:310px;max-width:calc(100% - 70px);max-height:calc(100% - 20px)}
+#mapa.modo-clima .mapa-paneles>#clima-panel:not([hidden]),#mapa.modo-clima .mapa-paneles>#cm-flotante:not([hidden]){display:block!important;max-height:100%;overflow:auto;box-sizing:border-box}
+#mapa.modo-clima .mapa-paneles>[hidden]{display:none!important}
+#mapa.modo-clima #clima-panel{padding:10px 11px}
+#clima-panel select,#cm-flotante select{font:600 11px var(--sans);background:var(--superficie);color:var(--tinta);border:1px solid var(--linea);border-radius:6px;min-width:0;height:30px;padding:3px 6px;max-width:100%}
+#clima-panel .ct-sel select{width:100%}
+#clima-panel .cm-tiempo{grid-template-columns:30px minmax(0,1fr) 30px}
+#clima-panel .cm-tiempo select{width:100%;text-align:center}
+.cm-info{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:20px;height:20px;min-height:20px!important;padding:0!important;border:1px solid currentColor;border-radius:50%!important;font:bold 13px Georgia,serif;color:var(--acento);background:var(--fondo);cursor:pointer}
+.cm-agrupar,.cm-corte{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:7px;font-size:10px;color:var(--tinta3)}
+.cm-agrupar select{flex:1}.cm-corte button{font:inherit;color:var(--acento);background:var(--superficie);border:1px solid var(--linea);border-radius:5px;padding:3px 7px;cursor:pointer}.cm-corte button:disabled{opacity:.45;cursor:default}
+.cm-escala-producto{margin-top:7px}.cm-escala-producto .cli-escala{margin-top:4px}.cm-escala-producto .cli-marcas{font-size:9px;height:17px}.cm-escala-producto .cli-pies{font-size:9px}
+#clima-panel .cm-carga:empty{display:none}.cm-carga{font-size:10px;color:var(--atencion)}
+#mapa.modo-clima #cm-leyenda:not([hidden]){display:block;position:absolute;left:56px;bottom:10px;width:310px;max-width:calc(100% - 70px);box-sizing:border-box;z-index:700;padding:8px 11px;border:1px solid var(--linea);border-radius:10px;background:var(--fondo);pointer-events:auto}
+#mapa.modo-clima:has(#cm-flotante:not([hidden])) #cm-leyenda{display:none!important}
+.cm-ley-titulo{display:flex;justify-content:space-between;gap:8px;font-size:10px}.cm-ley-titulo span{color:var(--tinta3)}
+.cm-cab{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12px}.cm-cab button{font-size:20px;padding:0;width:28px;border:0;background:var(--fondo);color:var(--tinta);cursor:pointer}
+.cm-opciones{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+#cm-flotante .cm-opciones button,#cm-flotante .cm-enlace,#cm-flotante [data-cm-ley],.ci-cab button,.cm-contexto button{font:500 11px var(--sans);padding:6px 8px;border-radius:6px;border:1px solid var(--linea);background:var(--superficie);color:var(--tinta);cursor:pointer}
+.cm-opciones button[aria-pressed=true]{color:var(--acento)!important;border-color:var(--acento)!important}
+#cm-flotante p{font-size:11px;color:var(--tinta2);line-height:1.5;margin:7px 0}#cm-flotante input[type=range]{display:block;width:100%;margin:10px 0}#cm-flotante output{float:right}.cm-calidad{display:grid;gap:5px;margin-top:12px}
+.cm-serie-cab{display:flex;gap:5px 10px;flex-wrap:wrap;padding:7px 11px 2px;font-size:10px;line-height:1.4;color:var(--tinta2)}.cm-serie-cab span{color:var(--tinta3)}
+.cm-graf-wrap{flex:1;min-height:130px;overflow:hidden}#cm-producto-graf{height:100%;min-height:130px}
+.cm-detalle-pie{font-size:9px;color:var(--tinta3);padding:3px 11px 6px;line-height:1.4}
+.cm-lectura{font-size:10px;color:var(--tinta3);padding:2px 11px;margin:0;line-height:1.4}
+.cm-contexto{display:flex;align-items:center;justify-content:space-between;gap:5px;padding:4px 10px;font-size:10px;color:var(--tinta2)}
+.cm-alerta{font-size:11px;color:var(--calor)}.cm-ref{display:block;margin-bottom:7px}.cm-ref select{max-width:100%;font-size:12px}
+.cm-ayuda-intro{font-size:15px;line-height:1.5}.cm-definicion{max-width:850px}.cm-definicion dt{font-size:13px;font-weight:700;margin:18px 0 5px}.cm-definicion dd{margin:0;color:var(--tinta2);font-size:13px;line-height:1.6}
+.ci-estacion{text-align:left;font:inherit;color:var(--tinta);display:grid;gap:3px;cursor:pointer;background:var(--superficie)!important;border:1px solid var(--linea);border-radius:7px}.ci-estacion small{font-size:9px;color:var(--tinta3)}.ci-estacion[aria-pressed=true]{border-color:var(--acento)}
+.ci-cab{display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:6px;font-size:11px;padding:6px 11px}.ci-cab span{color:var(--tinta3)}.ci-nota{font-size:10px;line-height:1.4;color:var(--tinta2);padding:0 11px 5px}
+.ci-serie-scroll{flex:1;min-width:0;min-height:190px;overflow-x:auto;overflow-y:hidden}.ci-serie-scroll #ci-serie-graf{height:100%;min-height:190px}.ci-desliza{padding:0 11px 4px;font-size:10px;color:var(--tinta3)}.ci-desliza[hidden]{display:none}
+.ci-seleccionada{animation:ci-pulso 1.6s ease-in-out infinite}@keyframes ci-pulso{0%,100%{stroke-opacity:1;stroke-width:3}50%{stroke-opacity:.45;stroke-width:5}}@media(prefers-reduced-motion:reduce){.ci-seleccionada{animation:none}}
+.hm-selector{padding:5px 10px;border-bottom:1px solid var(--linea)}.hm-selector label{display:flex;align-items:center;gap:7px;font-size:10px}.hm-selector select{flex:1;min-width:0;max-width:100%;height:27px;padding:4px;font-size:11px}
+.hm-emision{padding:5px 10px 0;font-size:10px;color:var(--tinta3)}
+.hm-graf-scroll{width:100%;flex:0 0 auto;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}.hm-graf-scroll #hm-graf{min-width:0;width:100%;height:170px;min-height:170px}
+.hm-selector,.hm-emision,.hm-leyenda,.hm-verif{flex-shrink:0}
+.hm-leyenda{display:flex;flex-wrap:nowrap;gap:11px;overflow:auto;padding:0 10px 6px;white-space:nowrap;scrollbar-width:thin}.hm-leyenda button{display:inline-flex;align-items:center;gap:5px;flex:0 0 auto;min-height:26px;border:0;background:transparent;color:var(--tinta);font:10px var(--sans);padding:3px 0;cursor:pointer}.hm-leyenda button[aria-pressed=false]{opacity:.45}.hm-muestra{width:16px;border-top:2px solid currentColor;display:inline-block}.hm-desliza{display:none;font-size:10px;color:var(--tinta3);padding:3px 10px}
+.hm-verif{padding:0 10px 10px;font-size:11px;line-height:1.5;border-top:1px solid var(--linea)}.hm-verif>summary{cursor:pointer;padding:8px 0;font-weight:600}.hm-cab{display:flex;align-items:center;gap:8px;padding:6px 0}.hm-cab label{margin-left:auto}.hm-cab select{max-width:100%;font:inherit;padding:4px}
+.hm-scroll{overflow:auto}.hm-scroll table{width:100%;border-collapse:collapse;text-align:left;font-size:10px}.hm-scroll th,.hm-scroll td{padding:6px;border-bottom:1px solid var(--linea);vertical-align:top}.hm-scroll th small{display:block;font-weight:400;color:var(--tinta3);font-size:9px}.hm-nota{font-size:10px;color:var(--tinta2);line-height:1.5}.hm-elegido{background:var(--superficie)}
+#cml-graf{height:240px;min-height:240px}.cml-terciles{display:flex;gap:12px;padding:5px 10px;font-size:10px}.cml-terciles strong{margin-right:4px}.cml-terciles span{color:var(--tinta3)}#cml-prob h4{font-size:11px;margin:8px 10px 2px}#cml-validacion table{font-size:10px;border-collapse:collapse;width:100%}#cml-validacion th,#cml-validacion td{padding:6px;text-align:right;white-space:nowrap}#cml-validacion th:first-child{text-align:left}
+@media(min-width:1241px){body.climatologia-activa #p-mon .cuerpo,body.hidro-motor-activo #p-mon .cuerpo{grid-template-rows:minmax(0,1.2fr) minmax(0,.8fr)}}
+@media(min-width:1241px){body.hidro-motor-activo #p-mon .cuerpo{grid-template-rows:minmax(340px,1.5fr) minmax(120px,.5fr)}}
+@media(max-width:760px){
+ #mapa.modo-clima .mapa-paneles,#mapa.modo-clima #cm-leyenda{left:50px;max-width:calc(100% - 60px);width:310px}
+ #clima-panel select,#clima-panel .ct-btn{height:34px}#mapa.modo-clima .mapa-boton{width:34px;height:34px}
+ .hm-graf-scroll #hm-graf{min-width:570px;height:235px;min-height:235px}.hm-desliza{display:block}.hm-leyenda button{min-height:34px}
+ .cm-graf-wrap,.ci-serie-scroll{min-height:230px}#cm-producto-graf,.ci-serie-scroll #ci-serie-graf{min-height:230px}
+}
+
+.cml-vistas{display:flex;gap:4px;margin-left:auto}.cml-vistas button{font-size:11px;padding:4px 7px}.cml-vistas [aria-pressed=true]{background:var(--acento-suave);color:var(--acento)}.cml-graf-wrap{min-height:150px;flex:1;position:relative}.cml-graf-wrap #cml-graf{height:100%;min-height:150px}.climatologia-activa #serie:has(#cml-graf){display:flex;flex-direction:column}.climatologia-activa #cml-nota{max-height:2.6em;overflow:auto;font-size:10px}.climatologia-activa #cml-ley{font-size:10px;flex-shrink:0;overflow-x:auto;white-space:nowrap}.climatologia-activa #cml-ley span{display:inline-flex;align-items:center;gap:4px}.climatologia-activa #cml-ley i{width:12px;height:3px;display:inline-block}.climatologia-activa .hm-verif[open]{flex-shrink:0}
+.cml-vistas button,.cml-vistas select{font:inherit;font-size:11px;color:var(--tinta);background:var(--panel);border:1px solid var(--borde);border-radius:5px;padding:5px 7px}.cml-vistas button[aria-pressed="true"]{color:var(--acento);background:var(--acento-suave,#1b3c50)}.cml-vistas{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.climatologia-activa #cml-ley{flex-wrap:wrap;gap:5px 12px;white-space:normal;overflow:visible}
+.climatologia-activa #cml-nota{flex:0 0 auto;min-height:28px;max-height:42px;line-height:14px;margin:6px 10px}
+body.hidro-motor-activo .hm-leyenda{flex-wrap:wrap;gap:0 12px;overflow:visible;white-space:normal}
+@media(min-width:1241px){body.climatologia-activa #p-mon .cuerpo:has(#cml-graf){grid-template-rows:minmax(360px,1.5fr) minmax(120px,.5fr)}}
+@media(max-width:760px){
+ body.climatologia-activa .a-serie .tabs-grupo{display:flex;flex-wrap:wrap;max-width:100%;min-width:0;white-space:normal}
+ .cml-graf-wrap{flex:0 0 auto;height:252px;min-height:252px;overflow-x:auto;overflow-y:hidden}
+ .cml-graf-wrap #cml-graf{height:240px;min-height:240px;min-width:var(--cm-ancho-barras,0)}
+ .climatologia-activa #serie:has(#cml-graf){height:auto;min-height:430px}
+}
+
+#cm-dialogo{box-sizing:border-box;width:min(1060px,96vw);max-height:94dvh;padding:0;border:1px solid var(--linea,#ccc);border-radius:12px;color:var(--tinta,#162231);background:var(--fondo,#fff)}#cm-dialogo::backdrop{background:#10233499}#cm-dialogo header{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:14px;padding:15px 20px;position:sticky;top:0;background:var(--fondo,#fff);z-index:2;border-bottom:1px solid var(--linea,#ddd)}#cm-dialogo h2{flex:1;min-width:0;font-size:19px;margin:0}#cm-dialogo header button{flex:0 0 38px;min-width:38px;min-height:38px}.cm-contenido{padding:18px 22px;line-height:1.5}.cm-enso-kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.cm-enso-kpi>div{padding:12px;border:1px solid var(--linea,#ddd);border-radius:8px;display:grid}.cm-enso-kpi strong{font-size:25px}.cm-enso-kpi small{font-size:11px}.cm-grafico{height:330px}.cm-tabla{overflow:auto;max-height:440px}.cm-tabla table{border-collapse:collapse;width:100%;font-size:12px}.cm-tabla td,.cm-tabla th{padding:8px 10px;border-bottom:1px solid var(--linea,#ddd);text-align:right;white-space:nowrap}.cm-tabla th{position:sticky;top:0;background:var(--fondo,#fff)}.cm-tabla td:first-child,.cm-tabla th:first-child{text-align:left}
+@media(max-width:600px){.cm-contenido{padding:14px}.cm-enso-kpi{grid-template-columns:1fr}.cm-grafico{height:310px}#cm-dialogo header{padding:12px}#cm-dialogo h2{font-size:16px}}
+
+/* Un mismo armazón para mapa, estación y validación; las tablas no reducen los gráficos. */
+body.climatologia-activa #v-clima,body.climatologia-activa #v-interp{display:none!important}
+.climatologia-activa #serie:has(#ci-panel-grupos),.climatologia-activa #serie:has(#cml-graf),#serie:has(.cm-obs){display:block!important;height:auto;min-height:0;overflow:visible}
+.cml-toolbar,.cml-periodos,.ci-panel-periodos{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:5px 10px;font-size:11px}
+.cml-toolbar button,.cml-toolbar select,.cml-periodos button,.cml-periodos select,.ci-panel-periodos select,.ci-panel-periodos button,.ci-acciones button,.ci-grupo-cab select{font:inherit;color:var(--tinta);background:var(--superficie);border:1px solid var(--linea);border-radius:5px;padding:5px 7px;min-height:28px}
+.cml-toolbar .cml-vistas{margin-left:0}.cml-toolbar select{margin-left:auto;max-width:155px}.cml-periodos{justify-content:center;color:var(--tinta2)}
+.cml-graf-wrap,.climatologia-activa .cml-graf-wrap{height:220px;min-height:220px;flex:none;overflow:hidden}
+.cml-graf-wrap #cml-graf{height:220px!important;min-height:220px!important}
+.cml-recorrer{display:flex;align-items:center;gap:8px;font-size:10px;color:var(--tinta2);margin:0 10px 4px}.cml-recorrer input{flex:1;min-width:40px;accent-color:var(--acento)}.cml-recorrer output{font-variant-numeric:tabular-nums;min-width:110px;text-align:right}
+.climatologia-activa #cml-ley{display:flex!important;flex-wrap:nowrap!important;overflow-x:auto;gap:11px;align-items:center}.climatologia-activa #cml-ley button{min-height:26px!important;flex:0 0 auto}.cml-observado{flex:0 0 auto}
+.climatologia-activa #cml-nota{max-height:none;min-height:0;font-size:10px;line-height:1.5;margin:6px 10px}
+.cml-metricas,.cm-metricas{padding:0 10px 10px;border-top:1px solid var(--linea);font-size:11px}
+.cml-metricas i{display:inline-block;width:10px;height:3px;margin-right:5px}.cml-metricas details{margin-top:8px}
+.cml-metricas th,.cml-metricas td{border-bottom:1px solid var(--linea)}
+.cm-metricas h3,.cm-obs h3{font-size:11px;margin:9px 10px 0}.cm-metricas h3{margin:9px 0}
+.cm-obs-scroll{overflow-x:auto;overflow-y:hidden}.cm-obs-scroll>div{height:230px;min-width:350px}
+.cm-serie-nota{font-size:10px;line-height:1.5;color:var(--tinta2);margin:5px 10px 8px}
+.ci-panel-cab{padding:9px 10px 3px;display:flex;justify-content:space-between;gap:8px;font-size:12px}.ci-panel-cab span{font-size:10px;color:var(--tinta3)}
+.ci-panel-periodos{padding-bottom:3px}.ci-panel-periodos label{display:flex;align-items:center;gap:6px}.ci-panel-periodos button{margin-left:auto}
+.ci-grupo{margin:0 10px 14px}.ci-grupo-cab{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:7px 0;border-bottom:2px solid var(--linea)}
+.ci-grupo h3{font-size:12px;margin:0}.ci-grupo-cab label{font-size:10px}.ci-tabla-wrap{overflow:auto}.ci-grupo table{width:100%;border-collapse:collapse;font-size:11px}
+.ci-grupo th,.ci-grupo td{padding:7px 5px;border-bottom:1px solid var(--linea);text-align:left;vertical-align:middle}.ci-grupo thead th{font-size:10px;color:var(--tinta3);font-weight:500}.ci-grupo tbody th{font-weight:500;min-width:140px}
+.ci-grupo small{display:block;font-size:9px;font-weight:400;color:var(--tinta3);margin-top:3px}.ci-valor{font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}.ci-acciones{white-space:nowrap}.ci-acciones button{font-size:10px;cursor:pointer}.ci-acciones .cm-info{padding:0;min-height:22px;width:22px;margin-right:5px;border-radius:50%}
+.ci-modal-scroll{overflow-x:auto}.ci-modal-scroll>div{height:300px}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+#clima-panel{padding:8px 9px!important}#clima-panel .ct-sel{margin-bottom:5px}#clima-panel .cm-tiempo{gap:4px}#clima-panel .cm-tiempo select{min-width:0}
+#clima-panel .cm-corte{display:none}#clima-panel .cm-escala-producto{margin-top:5px}#clima-panel .capa-sub:empty{display:none}
+#clima-panel .ct-paso.cm-tiempo{display:grid;grid-template-columns:28px minmax(0,1fr) 28px}
+.ci-grupo tbody th{text-transform:none;letter-spacing:normal;font-size:11px}
+@media(min-width:1241px){body.climatologia-activa #p-mon .cuerpo:has(#ci-panel-grupos){grid-template-rows:minmax(360px,1.7fr) minmax(110px,.5fr)}}
+.capa-panel .ct-fila,.capa-panel .ct-paso{row-gap:4px}.capa-panel .ct-sel select{min-height:27px}
+@media(max-width:760px){.cml-toolbar{gap:5px}.cml-toolbar select{margin-left:0}.cml-graf-wrap{height:285px}.ci-grupo th,.ci-grupo td{padding:6px 4px}.ci-grupo tbody th{min-width:120px}.ci-panel-cab{flex-wrap:wrap}.ci-acciones button,.ci-panel-periodos button{min-height:32px}}
+
+/* La validación hidrológica permanece abierta; la estación se elige en la red. */
+.hm-verif h3{font-size:12px;margin:8px 0 3px}.hm-verif h4{font-size:11px;margin:8px 0 3px}.hm-verif .hm-cab{padding:2px 0}.hm-verif .hm-nota{margin:6px 0}.hm-comun{margin-top:8px}.hm-verif .hm-cab h3{margin:5px 0}
+body.hidro-motor-activo .hm-scroll th{white-space:normal;text-transform:none;letter-spacing:normal}.hm-scroll th:first-child{min-width:95px;max-width:145px}.hm-scroll th small{max-width:145px;white-space:normal;overflow-wrap:anywhere}.hm-scroll td:last-child{min-width:95px}
+
+/* Una navegación por producto. Los otros módulos conservan sus vistas. */
+body.climatologia-activa #v-producto,body.climatologia-activa #v-indicadores,body.climatologia-activa #v-serie,body.climatologia-activa #v-pron-grupo{display:none!important}
+/* 5-nov-2026: la estación vuelve a tener Producto, Normales, Evolución y Meses; la leyenda de las
+   estaciones con registro es el segundo bloque, a la derecha de la escala en pantalla ancha. */
+#clima-panel:has(.cm-hist-ley)>.cm-escala-producto{grid-column:span 9}
+#clima-panel>.cm-hist-ley{grid-column:span 3;align-self:center;margin:0;padding:0 0 0 9px;border-top:0;border-left:1px solid var(--linea);font-size:10px;line-height:1.35}
+.cm-hist-ley{color:var(--tinta2)}.cm-hist-ley b{font-weight:600;color:var(--tinta)}.cm-hist-ley span{display:block;margin-top:1px}.cm-hist-ley i.hh{margin-left:0}.cm-hist-ley .cm-hist-tam{color:var(--tinta3)}
+#cm-leyenda .cm-hist-ley{font-size:10px}
+/* «Meses» en Climatología apila el gráfico, la escala y la tabla por región. Hasta 1240 px el gráfico conserva
+   230 px (quedaba en 57 px a 1200×662). En el teléfono la caja crece con la página; entre 761 y 1240 px la ficha
+   tiene alto fijo y la tabla por región se alcanza desplazando la ficha. */
+@media(max-width:1600px){
+ body.climatologia-activa #serie:has(>.cli-reg){height:auto}
+ body.climatologia-activa #serie:has(>.cli-reg)>.plotly-serie{flex:0 0 230px;height:230px}
+}
+@media(max-width:760px){
+ #clima-panel:has(.cm-hist-ley)>.cm-escala-producto{grid-column:1/-1}
+ #clima-panel>.cm-hist-ley{grid-column:1/-1;padding:4px 0 0;border-left:0;border-top:1px solid var(--linea);display:flex;flex-wrap:wrap;gap:2px 10px;align-items:center}
+ #clima-panel>.cm-hist-ley span{display:inline;margin:0}
+}
+.ci-panel-cab{align-items:center}.ci-panel-cab button,.ci-grupos button,.ci-grafico footer button{font:inherit;background:var(--superficie);color:var(--tinta2);border:1px solid var(--linea);border-radius:5px;padding:5px 8px;cursor:pointer}
+.ci-panel-cab button{margin-left:auto}.ci-grupos{display:flex;gap:5px;flex-wrap:wrap;padding:5px 10px 8px}.ci-grupos button{font-size:11px}.ci-grupos button[aria-pressed=true],.ci-grafico footer button[aria-pressed=true]{background:var(--superficie);color:var(--acento);border-color:var(--acento);font-weight:600}
+.ci-graficos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px;padding:0 10px}.ci-grafico{min-width:0;border-top:1px solid var(--linea);padding:8px 0}.ci-grafico header{display:flex;gap:7px;align-items:center;min-height:30px}.ci-grafico h3{font-size:11px;margin:0;flex:1;line-height:1.4}.ci-grafico .cm-info{flex:0 0 21px}.ci-cifra{font-size:12px;color:var(--tinta2);margin:3px 0}.ci-cifra b{font-size:18px;color:var(--tinta)}.ci-mini-plot{height:155px;min-width:0}.ci-grafico footer{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--tinta3)}.ci-mapa-nombre{font-size:10px;color:var(--tinta2);padding-top:5px}.ci-graficos>.vacio{grid-column:1/-1}
+.climatologia-activa #serie:has(.cm-contexto-graficos){display:block!important;height:auto;min-height:0;overflow:visible}.cm-contexto-graficos{padding:0 10px}.cm-contexto-graficos section{border-top:1px solid var(--linea);padding:6px 0}.cm-contexto-graficos h3{font-size:11px;margin:0 0 4px}.cm-contexto-graficos h3 small{font-size:10px;color:var(--tinta3);font-weight:400;margin-left:5px}.cm-contexto-graficos .js-plotly-plot{width:100%;min-width:0}.cm-resumen-linea{font-size:11px;display:flex;gap:12px;flex-wrap:wrap;padding:0 10px 8px;color:var(--tinta2)}.cm-resumen-linea b{color:var(--acento)}
+@media(max-width:600px){.ci-graficos{grid-template-columns:minmax(0,1fr)}.ci-grafico h3{font-size:12px}.ci-grupos button{min-height:32px}.ci-panel-cab{gap:4px}}
+
+/* Controles de producto extendidos sobre el borde inferior. */
+#mapa.modo-clima .mapa-paneles:has(#clima-panel:not([hidden])){left:56px;right:10px;width:auto;max-width:none}
+#mapa.modo-clima .mapa-paneles>#clima-panel:not([hidden]){display:grid!important;grid-template-columns:repeat(12,minmax(0,1fr));gap:5px 8px;padding:7px 9px!important;overflow:auto}
+#clima-panel>.ct-sel{grid-column:span 6;margin:0!important;gap:5px}
+#clima-panel>.cm-tiempo{grid-column:span 6;margin:0!important}
+#clima-panel:has(.cm-agrupar)>.ct-sel{grid-column:span 8}
+#clima-panel>.cm-agrupar{grid-column:span 4;margin:0;gap:5px}
+#clima-panel:has(.cm-agrupar)>.cm-tiempo{grid-column:span 7}
+#clima-panel>.ci-mapa-nombre{grid-column:span 5;align-self:center;padding:0;font-size:10px}
+#clima-panel>.cm-escala-producto,#clima-panel>.cm-carga,#clima-panel>.cm-alerta{grid-column:1/-1;margin:0!important}
+#clima-panel .cli-escala{margin:0}.cm-escala-producto .cli-pies{margin-top:0}
+#clima-panel select,#clima-panel .ct-btn,#clima-panel [data-cm-ultimo]{height:27px;min-height:27px;font-size:10px}
+#clima-panel .ct-paso.cm-tiempo{grid-template-columns:24px minmax(0,1fr) 24px;gap:3px}
+#clima-panel .cli-nulo{font-size:9px;margin-top:3px}
+#clima-panel .cli-nulo i{background:repeating-linear-gradient(135deg,#7c848f 0 1.5px,#bfc4cc 1.5px 4px)!important}
+@media(min-width:1241px){
+ .cm-contexto-graficos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}
+ .cm-contexto-graficos section{min-width:0}
+ .cm-contexto-graficos section:has(#cm-contexto-mensual),.cm-contexto-graficos section:has(#cm-contexto-porcentaje){grid-column:1/-1}
+ body.climatologia-activa #p-mon .cuerpo:has(.cm-contexto-graficos){grid-template-rows:minmax(350px,1.7fr) minmax(110px,.5fr)}
+}
+@media(max-width:760px){
+ #mapa.modo-clima .mapa-paneles:has(#clima-panel:not([hidden])){left:48px;right:8px;width:auto;max-width:none}
+ #clima-panel>.ct-sel{grid-column:1/-1}#clima-panel>.cm-tiempo{grid-column:1/-1}
+ #clima-panel:has(.cm-agrupar)>.ct-sel{grid-column:1/-1}#clima-panel>.cm-agrupar{grid-column:span 4}
+ #clima-panel:has(.cm-agrupar)>.cm-tiempo{grid-column:span 8}#clima-panel>.ci-mapa-nombre{grid-column:1/-1}
+ #clima-panel .cm-agrupar{font-size:0}#clima-panel .cm-agrupar select{font-size:10px}
+ #clima-panel select,#clima-panel .ct-btn,#clima-panel [data-cm-ultimo]{height:30px;min-height:30px}
+}
+
+#cm-ayuda-popup{position:fixed;inset:auto;margin:0;box-sizing:border-box;width:min(365px,calc(100vw - 16px));max-height:min(420px,calc(100dvh - 16px));overflow:auto;border:1px solid var(--linea);border-radius:8px;background:var(--fondo);color:var(--tinta);padding:10px 13px;box-shadow:0 5px 24px #0006;font:12px var(--sans);z-index:10000}
+#cm-ayuda-popup::backdrop{background:transparent}#cm-ayuda-popup header{display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--linea);padding-bottom:6px}#cm-ayuda-popup header button{border:0;background:transparent;color:var(--tinta);font-size:20px;cursor:pointer}#cm-ayuda-popup p{line-height:1.5;margin:7px 0}#cm-ayuda-popup dt{font-size:11px;margin-top:10px}#cm-ayuda-popup dd{font-size:11px;line-height:1.5}
+#clima-panel:has(.cm-agrupar):not(:has(.cm-escala-producto))>.ct-sel{grid-column:1/-1}
+#clima-panel:has(.cm-agrupar):not(:has(.cm-escala-producto))>.cm-agrupar{grid-column:span 4}
+#clima-panel:has(.cm-agrupar):not(:has(.cm-escala-producto))>.cm-tiempo{grid-column:span 8}
+.capa-panel .alertas-comparar{flex:0 0 30px;width:30px;height:28px;padding:4px;border:1px solid var(--linea);border-radius:5px;background:var(--superficie);color:var(--acento);display:flex;align-items:center;justify-content:center;cursor:pointer}.alertas-comparar .ui-icon{width:17px;height:17px}.capa-panel .ct-sel:has(.alertas-comparar){display:flex;gap:5px}.capa-panel .ct-sel:has(.alertas-comparar) select{flex:1;min-width:0}
